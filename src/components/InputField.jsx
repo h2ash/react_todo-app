@@ -2,35 +2,35 @@ import React from 'react'
 
 class InputField extends React.Component {
   state = {
-    newTodo: '',
+    title: '',
   }
 
   handleInput = (event) => {
     const {value} = event.target;
 
     this.setState({
-      newTodo: value,
+      title: value,
     })
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.props.changeState(this.state.newTodo);
+    this.props.addNewTodo(this.state.title);
 
     this.setState({
-      newTodo: '',
+      title: '',
     })
   }
 
   render() {
-    const {newTodo, todoItem} = this.state;
+    const {title, todoItem} = this.state;
 
     return (
       <form onSubmit={this.handleSubmit}>
         <input
           name='todo'
-          value={newTodo}
+          value={title}
           onChange={this.handleInput}
           className="new-todo"
           placeholder="What needs to be done?"

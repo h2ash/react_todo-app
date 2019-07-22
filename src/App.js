@@ -1,62 +1,58 @@
 import React from 'react';
 import InputField from './components/InputField';
 import ToggleCompleted from './components/ToggleCompleted';
+import TodoList from './components/TodoList'
 
 class App extends React.Component {
   state = {
     todoList: [],
     implementedTodos: [],
-    title: {},
-    id: 0,
-    completed: false,
   }
 
-  changeState = (text) => {
-    this.setState(prevState => ({
+  counterId = 1;
+
+  // removeFunc = () => {
+  // }
+
+  addNewTodo = (text) => {
+    const todoItem = {
       title: text,
-      id: prevState.id + 1,
+      id: this.counterId,
+      completed: false,
+    };
+
+    this.counterId++;
+
+    this.setState(prevState => ({
+      todoList: [...prevState.todoList, todoItem],
     }))
   }
 
   render() {
+    const {
+      todoList,
+      implementedTodos
+    } = this.state;
+
+    console.log(this.state.todoList);
     return (
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
   
           <InputField 
-            changeState={this.changeState}
+            addNewTodo={this.addNewTodo}
           />
         </header>
   
         <section className="main" style={{ display: 'block' }}>
           <ToggleCompleted />
+
+          <TodoList 
+            todoList={todoList}
+            implementedTodos={implementedTodos}
+          />
   
-          <ul className="todo-list">
-            <li className="">
-              <div className="view">
-                <input type="checkbox" className="toggle" id="todo-1" />
-                <label htmlFor="todo-1">sdfsdfsdf</label>
-                <button type="button" className="destroy" />
-              </div>
-            </li>
-  
-            <li className="">
-              <div className="view">
-                <input type="checkbox" className="toggle" id="todo-2" />
-                <label htmlFor="todo-2">sakgjdfgkhjasgdhjfhs</label>
-                <button type="button" className="destroy" />
-              </div>
-            </li>
-  
-            <li className="">
-              <div className="view">
-                <input type="checkbox" className="toggle" id="todo-3" />
-                <label htmlFor="todo-3">sddfgdfgdf</label>
-                <button type="button" className="destroy" />
-              </div>
-            </li>
-          </ul>
         </section>
   
         <footer className="footer" style={{ display: 'block' }}>
