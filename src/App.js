@@ -1,6 +1,6 @@
 import React from 'react';
 import InputField from './components/InputField';
-import ToggleCompleted from './components/ToggleCompleted'
+import ToggleCompleted from './components/ToggleCompleted';
 
 class App extends React.Component {
   state = {
