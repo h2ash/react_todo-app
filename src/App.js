@@ -6,7 +6,7 @@ import TodoList from './components/TodoList'
 class App extends React.Component {
   state = {
     todoList: [],
-    implementedTodos: [],
+    filteredTodos: [],
   }
 
   counterId = 1;
@@ -26,15 +26,36 @@ class App extends React.Component {
     this.setState(prevState => ({
       todoList: [...prevState.todoList, todoItem],
     }))
+
+    this.setState(prevState => ({
+      filteredTodos: [...prevState.todoList],
+    }))
+  }
+
+  filteredTodos = (filterBy) => {
+    this.setState(prevState => ({
+      filteredTodos: [...prevState.todoList].filter(item => {
+        switch(filterBy) {
+          case 'Completed':
+            return item.completed;
+          case 'Active':
+            return !item.completed;
+          case 'All': 
+            return item;
+        }
+      })
+    }))
   }
 
   render() {
     const {
       todoList,
-      implementedTodos
+      filteredTodos
     } = this.state;
 
     console.log(this.state.todoList);
+    console.log(this.state.filteredTodos);
+    
     return (
       <section className="todoapp">
         <header className="header">
@@ -50,7 +71,7 @@ class App extends React.Component {
 
           <TodoList 
             todoList={todoList}
-            implementedTodos={implementedTodos}
+            filteredTodos={filteredTodos}
           />
   
         </section>
@@ -62,15 +83,21 @@ class App extends React.Component {
   
           <ul className="filters">
             <li>
-              <a href="#/" className="selected">All</a>
+              <a href="#/" className="selected"
+                onClick={() => this.filteredTodos('All')}
+              >All</a>
             </li>
   
             <li>
-              <a href="#/active">Active</a>
+              <a href="#/active"
+                onClick={() => this.filteredTodos('Active')}
+              >Active</a>
             </li>
   
             <li>
-              <a href="#/completed">Completed</a>
+              <a href="#/completed"
+                onClick={() => this.filteredTodos('Completed')}
+              >Completed</a>
             </li>
           </ul>
   
