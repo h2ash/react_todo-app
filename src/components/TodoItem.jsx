@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TodoItem = ({removeFunc, todo}) => {
+const TodoItem = ({removeFunc, todo, toggleChecked}) => {
 
   return (
     <li className="">
@@ -10,6 +10,7 @@ const TodoItem = ({removeFunc, todo}) => {
           className="toggle" 
           id={todo.id} 
           checked={todo.completed}
+          onClick ={() => toggleChecked(todo.id)}
         />
         <label htmlFor={todo.id}>
           {todo.title}

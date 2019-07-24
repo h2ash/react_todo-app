@@ -47,10 +47,21 @@ class App extends React.Component {
     }))
   }
 
+  toggleChecked = (taskId) => {
+    this.setState(prevState => {
+      const task = prevState.todoList.find(item => item.id === taskId);
+      task.completed = !task.completed;
+      
+      return {
+        todoList: prevState.todoList,
+      }
+    })
+  }
+
   render() {
     const {
       todoList,
-      filteredTodos
+      filteredTodos,
     } = this.state;
 
     console.log(this.state.todoList);
@@ -72,6 +83,7 @@ class App extends React.Component {
           <TodoList 
             todoList={todoList}
             filteredTodos={filteredTodos}
+            toggleChecked={this.toggleChecked}
           />
   
         </section>
