@@ -1,7 +1,7 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-const TodoList = ({ todoList, filteredTodos, toggleChecked }) => (
+const TodoList = ({ filteredTodos, toggleChecked }) => (
   <ul className="todo-list">
       {filteredTodos.map(todo => (
       <TodoItem 

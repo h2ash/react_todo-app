@@ -63,10 +63,9 @@ class App extends React.Component {
       todoList,
       filteredTodos,
     } = this.state;
-
-    console.log(this.state.todoList);
-    console.log(this.state.filteredTodos);
     
+    console.log(todoList);
+
     return (
       <section className="todoapp">
         <header className="header">
@@ -81,7 +80,6 @@ class App extends React.Component {
           <ToggleCompleted />
 
           <TodoList 
-            todoList={todoList}
             filteredTodos={filteredTodos}
             toggleChecked={this.toggleChecked}
           />

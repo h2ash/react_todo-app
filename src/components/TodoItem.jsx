@@ -3,7 +3,7 @@ import React from 'react'
 const TodoItem = ({removeFunc, todo, toggleChecked}) => {
 
   return (
-    <li className="">
+    <li className={todo.completed ? 'completed' : ''}>
       <div className="view">
         <input 
           type="checkbox" 
