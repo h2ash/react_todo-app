@@ -5,6 +5,7 @@ const TodoList = ({ filteredTodos, toggleChecked }) => (
   <ul className="todo-list">
       {filteredTodos.map(todo => (
       <TodoItem 
+        key={todo.id}
         todo={todo}
         toggleChecked={toggleChecked}
       />

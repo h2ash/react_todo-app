@@ -7,7 +7,7 @@ const ToggleCompleted = ({toggleAll}) => {
         type="checkbox" 
         id="toggle-all" 
         className="toggle-all" 
-        onClick={toggleAll}
+        onChange={toggleAll}
         />
       <label 
       htmlFor="toggle-all">
