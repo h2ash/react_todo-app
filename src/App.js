@@ -32,7 +32,7 @@ class App extends React.Component {
     }))
   }
 
-  filteredTodos = (filterBy) => {
+  handleFilter = (filterBy) => {
     this.setState(prevState => ({
       filteredTodos: [...prevState.todoList].filter(item => {
         switch(filterBy) {
@@ -40,22 +40,81 @@ class App extends React.Component {
             return item.completed;
           case 'Active':
             return !item.completed;
-          case 'All': 
+          case 'All': // вместо All можно default
             return item;
         }
       })
     }))
   }
 
-  toggleChecked = (taskId) => {
+  toggleAll = () => {
+
     this.setState(prevState => {
-      const task = prevState.todoList.find(item => item.id === taskId);
-      task.completed = !task.completed;
-      
+
+      // вариант Димы
+      if (prevState.todoList.every(todo => todo.completed)) {
+        return {
+          todoList: prevState.todoList.map(todo => ({
+            ...todo,
+            completed: false,
+          }))
+        }
+      }
+
       return {
-        todoList: prevState.todoList,
+        todoList: prevState.todoList.map(todo => ({
+          ...todo,
+          completed: true,
+        }))
       }
     })
+
+    // this.setState(prevState => {
+    //   if (prevState.todoList.some(item => item.completed)) {
+    //     items = prevState.todoList.map(item => ({
+    //         ...item, completed: true
+    //     }))
+    //   }
+
+    //   console.log(items);
+      
+    //   if (prevState.todoList.every(item => item.completed)) {
+    //     items = prevState.todoList.map(item => ({
+    //       ...item, completed: !item.completed
+    //     }))
+    //   }
+
+    //   console.log(items)
+    //   return {
+    //     todoList: items,
+    //   }
+    // })
+  }
+
+  toggleChecked = (taskId) => {
+    // this.setState(prevState => {
+    //   const task = prevState.todoList.find(item => item.id === taskId);
+    //   task.completed = !task.completed;
+      
+    //   return {
+    //     todoList: prevState.todoList,
+    //   }
+    // })
+
+
+    // вариант Димы
+    this.setState(prevState => ({
+      filteredTodos: prevState.todoList.map(todo => {
+        if (todo.id === taskId) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          }
+        }
+
+        return todo;
+      })
+    }))
   }
 
   render() {
@@ -64,7 +123,9 @@ class App extends React.Component {
       filteredTodos,
     } = this.state;
     
-    console.log(todoList);
+    console.log(`todoList: `, todoList);
+    console.log(`filteredTodods: `, filteredTodos);
+
 
     return (
       <section className="todoapp">
@@ -77,7 +138,9 @@ class App extends React.Component {
         </header>
   
         <section className="main" style={{ display: 'block' }}>
-          <ToggleCompleted />
+          <ToggleCompleted 
+            toggleAll={this.toggleAll}
+          />
 
           <TodoList 
             filteredTodos={filteredTodos}
@@ -94,19 +157,19 @@ class App extends React.Component {
           <ul className="filters">
             <li>
               <a href="#/" className="selected"
-                onClick={() => this.filteredTodos('All')}
+                onClick={() => this.handleFilter('All')}
               >All</a>
             </li>
   
             <li>
               <a href="#/active"
-                onClick={() => this.filteredTodos('Active')}
+                onClick={() => this.handleFilter('Active')}
               >Active</a>
             </li>
   
             <li>
               <a href="#/completed"
-                onClick={() => this.filteredTodos('Completed')}
+                onClick={() => this.handleFilter('Completed')}
               >Completed</a>
             </li>
           </ul>
