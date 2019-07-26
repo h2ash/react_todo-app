@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TodoItem = ({ removeFunc, todo, toggleChecked }) => {
+const TodoItem = ({ deleteItem, todo, toggleChecked }) => {
 
   return (
     <li className={todo.completed ? 'completed' : ''}>
@@ -18,7 +18,7 @@ const TodoItem = ({ removeFunc, todo, toggleChecked }) => {
         <button
           type="button"
           className="destroy"
-          onClick={removeFunc}
+          onClick={() => deleteItem(todo.id)}
         />
       </div>
     </li>

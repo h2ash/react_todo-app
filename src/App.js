@@ -46,6 +46,17 @@ class App extends Component {
     })
   };
 
+  deleteItem = taskId => {
+    this.setState(prevState => {
+      const withoutRemovedItems = prevState.todoList.filter(item => item.id !== taskId);
+      
+        return {
+          todoList: [...withoutRemovedItems],
+          filteredTodos: [...withoutRemovedItems],
+        }
+    })
+  }
+
   handleFilter = filterBy => {
     this.setState(prevState => ({
       filteredTodos: prevState.todoList.filter(item => {
@@ -113,6 +124,7 @@ class App extends Component {
           <TodoList
             filteredTodos={filteredTodos}
             toggleChecked={this.toggleChecked}
+            deleteItem={this.deleteItem}
           />
         </section>
 
