@@ -16,11 +16,13 @@ class InputField extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.props.addNewTodo(this.state.title);
+    if (this.state.title) {
+      this.props.addNewTodo(this.state.title);
 
-    this.setState({
-      title: '',
-    })
+      this.setState({
+        title: '',
+      })
+    }
   }
 
   render() {
