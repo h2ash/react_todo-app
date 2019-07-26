@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import InputField from './components/InputField';
 import ToggleCompleted from './components/ToggleCompleted';
 import TodoList from './components/TodoList';
+import FilterButtons from './components/FilterButtons';
 
 class App extends Component {
   state = {
     todoList: [],
     filteredTodos: [],
+    uncompletedTodos: [],
     count: 1
   };
 
@@ -22,12 +24,13 @@ class App extends Component {
       return {
         todoList: todos,
         filteredTodos: todos,
+        uncompletedTodos: todos.filter(item => item.completed === false),
         count: prevState.count + 1
       };
     });
   };
 
-  handleFilter = filterBy => {
+  handleFilter = (filterBy) => {
     this.setState(prevState => ({
       filteredTodos: prevState.todoList.filter(item => {
         switch (filterBy) {
@@ -53,12 +56,13 @@ class App extends Component {
 
       return {
         todoList: todos,
-        filteredTodos: todos
+        filteredTodos: todos,
+        uncompletedTodos: todos.filter(item => item.completed === false),
       };
     });
   };
 
-  toggleChecked = taskId => {
+  toggleChecked = (taskId) => {
     this.setState(prevState => {
       const todos = prevState.todoList.map(todo => {
         return todo.id === taskId
@@ -71,13 +75,15 @@ class App extends Component {
 
       return {
         todoList: todos,
-        filteredTodos: todos
+        filteredTodos: todos,
+        uncompletedTodos: todos.filter(item => item.completed === false),
       };
     });
   };
 
   render() {
-    const { filteredTodos } = this.state;
+    const { filteredTodos, uncompletedTodos } = this.state;
+    console.log(this.state.uncompletedTodos);
 
     return (
       <section className="todoapp">
@@ -97,34 +103,9 @@ class App extends Component {
         </section>
 
         <footer className="footer" style={{ display: 'block' }}>
-          <span className="todo-count">3 items left</span>
+          <span className="todo-count">{uncompletedTodos.length} items left</span>
 
-          <ul className="filters">
-            <li>
-              <a
-                href="#/"
-                className="selected"
-                onClick={() => this.handleFilter('All')}
-              >
-                All
-              </a>
-            </li>
-
-            <li>
-              <a href="#/active" onClick={() => this.handleFilter('Active')}>
-                Active
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="#/completed"
-                onClick={() => this.handleFilter('Completed')}
-              >
-                Completed
-              </a>
-            </li>
-          </ul>
+          <FilterButtons handleFilter={this.handleFilter} />
 
           <button
             type="button"
