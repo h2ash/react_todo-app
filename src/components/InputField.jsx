@@ -27,7 +27,10 @@ class InputField extends React.Component {
     const {title} = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form 
+        onSubmit={this.handleSubmit}
+        onBlur={this.handleSubmit}
+        >
         <input
           name='todo'
           value={title}
