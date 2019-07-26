@@ -96,7 +96,7 @@ class App extends Component {
   };
 
   render() {
-    const { filteredTodos, uncompletedTodos } = this.state;
+    const { todoList, filteredTodos } = this.state;
     const countUncompletedTodos = this.countUncompletedTodos();
 
     return (
@@ -129,7 +129,7 @@ class App extends Component {
             style={{ display: 'block' }}
             onClick={this.deleteAllCompletedTodos}
           >
-            Clear Completed
+            {todoList.some(todo => todo.completed === true) && 'Clear Completed'}
           </button>
         </footer>
       </section>
