@@ -3,6 +3,7 @@ import InputField from './components/InputField';
 import ToggleCompleted from './components/ToggleCompleted';
 import TodoList from './components/TodoList';
 import FilterButtons from './components/FilterButtons';
+import ClearButton from './components/ClearButton';
 
 class App extends Component {
   state = {
@@ -135,14 +136,10 @@ class App extends Component {
 
           <FilterButtons handleFilter={this.handleFilter} />
 
-          <button
-            type="button"
-            className="clear-completed"
-            style={{ display: 'block' }}
-            onClick={this.deleteAllCompletedTodos}
-          >
-            {todoList.some(todo => todo.completed === true) && 'Clear Completed'}
-          </button>
+          <ClearButton 
+            todoList={todoList}
+            deleteAllCompletedTodos={this.deleteAllCompletedTodos}
+          />
         </footer>
       </section>
     );
