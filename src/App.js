@@ -134,7 +134,9 @@ class App extends Component {
             {countUncompletedTodos} items left
           </span>
 
-          <FilterButtons handleFilter={this.handleFilter} />
+          <FilterButtons 
+            handleFilter={this.handleFilter}
+           />
 
           <ClearButton 
             todoList={todoList}
