@@ -8,15 +8,14 @@ class App extends Component {
   state = {
     todoList: [],
     filteredTodos: [],
-    uncompletedTodos: [],
     count: 1
   };
 
-  addNewTodo = (text) => {
+  addNewTodo = text => {
     const todoItem = {
       title: text,
       id: this.state.count,
-      completed: false
+      completed: false,
     };
 
     this.setState(prevState => {
@@ -24,13 +23,30 @@ class App extends Component {
       return {
         todoList: todos,
         filteredTodos: todos,
-        uncompletedTodos: todos.filter(item => item.completed === false),
-        count: prevState.count + 1
+        count: prevState.count + 1,
       };
     });
   };
 
-  handleFilter = (filterBy) => {
+  countUncompletedTodos = () => {
+    return this.state.todoList
+      .filter(item => item.completed === false).length;
+  };
+
+  deleteAllCompletedTodos = () => {
+    this.setState(prevState => {
+      const uncompletedTodos = prevState.todoList
+        .filter(item => item.completed === false);
+
+      return {
+        todoList: [...uncompletedTodos],
+        filteredTodos: [...uncompletedTodos],
+      }
+
+    })
+  };
+
+  handleFilter = filterBy => {
     this.setState(prevState => ({
       filteredTodos: prevState.todoList.filter(item => {
         switch (filterBy) {
@@ -57,12 +73,11 @@ class App extends Component {
       return {
         todoList: todos,
         filteredTodos: todos,
-        uncompletedTodos: todos.filter(item => item.completed === false),
       };
     });
   };
 
-  toggleChecked = (taskId) => {
+  toggleChecked = taskId => {
     this.setState(prevState => {
       const todos = prevState.todoList.map(todo => {
         return todo.id === taskId
@@ -76,14 +91,13 @@ class App extends Component {
       return {
         todoList: todos,
         filteredTodos: todos,
-        uncompletedTodos: todos.filter(item => item.completed === false),
       };
     });
   };
 
   render() {
     const { filteredTodos, uncompletedTodos } = this.state;
-    console.log(this.state.uncompletedTodos);
+    const countUncompletedTodos = this.countUncompletedTodos();
 
     return (
       <section className="todoapp">
@@ -103,7 +117,9 @@ class App extends Component {
         </section>
 
         <footer className="footer" style={{ display: 'block' }}>
-          <span className="todo-count">{uncompletedTodos.length} items left</span>
+          <span className="todo-count">
+            {countUncompletedTodos} items left
+          </span>
 
           <FilterButtons handleFilter={this.handleFilter} />
 
@@ -111,7 +127,10 @@ class App extends Component {
             type="button"
             className="clear-completed"
             style={{ display: 'block' }}
-          />
+            onClick={this.deleteAllCompletedTodos}
+          >
+            Clear Completed
+          </button>
         </footer>
       </section>
     );
