@@ -8,7 +8,7 @@ import ClearButton from './components/ClearButton';
 class App extends Component {
   state = {
     todoList: [],
-    filteredTodos: [],
+    filterByButton: '',
     count: 1
   };
 
@@ -23,7 +23,6 @@ class App extends Component {
       const todos = [...prevState.todoList, todoItem];
       return {
         todoList: todos,
-        filteredTodos: todos,
         count: prevState.count + 1,
       };
     });
@@ -41,7 +40,6 @@ class App extends Component {
 
       return {
         todoList: [...uncompletedTodos],
-        filteredTodos: [...uncompletedTodos],
       }
 
     })
@@ -53,26 +51,14 @@ class App extends Component {
       
         return {
           todoList: [...withoutRemovedItems],
-          filteredTodos: [...withoutRemovedItems],
         }
     })
   }
 
   handleFilter = filterBy => {
-    this.setState(prevState => ({
-      filteredTodos: prevState.todoList.filter(item => {
-        switch (filterBy) {
-          case 'Completed':
-            return item.completed;
-
-          case 'Active':
-            return !item.completed;
-
-          default:
-            return item;
-        }
-      })
-    }));
+    this.setState({
+      filterByButton: filterBy,
+    });
   };
 
   toggleAll = () => {
@@ -84,7 +70,6 @@ class App extends Component {
 
       return {
         todoList: todos,
-        filteredTodos: todos,
       };
     });
   };
@@ -102,13 +87,12 @@ class App extends Component {
 
       return {
         todoList: todos,
-        filteredTodos: todos,
       };
     });
   };
 
   render() {
-    const { todoList, filteredTodos } = this.state;
+    const { todoList, filterByButton } = this.state;
     const countUncompletedTodos = this.countUncompletedTodos();
 
     return (
@@ -123,7 +107,8 @@ class App extends Component {
           <ToggleCompleted toggleAll={this.toggleAll} />
 
           <TodoList
-            filteredTodos={filteredTodos}
+            filterByButton={filterByButton}
+            todoList={todoList}
             toggleChecked={this.toggleChecked}
             deleteItem={this.deleteItem}
           />

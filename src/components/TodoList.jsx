@@ -1,18 +1,33 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-const TodoList = ({ filteredTodos, toggleChecked, deleteItem }) => (
-  <ul className="todo-list">
-      {filteredTodos.map(todo => (
-      <TodoItem 
-        key={todo.id}
-        todo={todo}
-        toggleChecked={toggleChecked}
-        deleteItem={deleteItem}
-      />
-    ))}
-  </ul>
+const TodoList = ({ todoList, filterByButton, toggleChecked, deleteItem }) => {
+  const filterBy = (item) => {
+    if (filterByButton === 'Completed') {
+      return item.completed;
+    } else if (filterByButton === 'Active') {
+      return !item.completed;
+    } else {
+      return item;
+    }
+  }
 
-)
+  return(
+    <ul className="todo-list">
+      {todoList
+        .filter(todo => filterBy(todo))
+        .map(todo => (
+          <TodoItem 
+            key={todo.id}
+            todo={todo}
+            toggleChecked={toggleChecked}
+            deleteItem={deleteItem}
+          />
+      ))}
+    </ul>
+  )
+
+
+}
 
 export default TodoList
