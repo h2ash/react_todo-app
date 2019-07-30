@@ -29,7 +29,7 @@ class InputField extends React.Component {
     const {title} = this.state;
 
     return (
-      <form 
+      <form
         onSubmit={this.handleSubmit}
         onBlur={this.handleSubmit}
         >

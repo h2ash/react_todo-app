@@ -5,7 +5,8 @@ const TodoList = ({
   todoList, 
   filterByButton, 
   toggleChecked, 
-  deleteItem 
+  deleteItem,
+  editTodo 
 }) => {
   const filterBy = (item) => {
     if (filterByButton === 'Completed') {
@@ -27,6 +28,7 @@ const TodoList = ({
             todo={todo}
             toggleChecked={toggleChecked}
             deleteItem={deleteItem}
+            editTodo={editTodo}
           />
         ))
       }

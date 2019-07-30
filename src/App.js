@@ -5,6 +5,12 @@ import TodoList from './components/TodoList';
 import FilterButtons from './components/FilterButtons';
 import ClearButton from './components/ClearButton';
 
+/**
+ * [] - добавить возможность редактирования todo по даблклику
+ *   [] - превратим в класс TodoItem и добавим туда состояние
+ *        и ф-цию для редактирования внутреннего текста todo.title
+ */
+
 class App extends Component {
   state = {
     todoList: [],
@@ -27,6 +33,25 @@ class App extends Component {
       };
     });
   };
+
+  editTodo = (text, id) => {
+    this.setState(prevState => {
+      const todos = prevState.todoList.map(todo => {
+        return todo.id === id
+          ? {
+            ...todo,
+            title: text,
+          }
+          : todo
+      });
+
+      console.log('editTodo is alive');
+
+      return {
+        todoList: todos,
+      };
+    });
+  }
 
   countUncompletedTodos = () => {
     return this.state.todoList
@@ -110,6 +135,7 @@ class App extends Component {
             todoList={todoList}
             toggleChecked={this.toggleChecked}
             deleteItem={this.deleteItem}
+            editTodo={this.editTodo}
           />
         </section>
 
