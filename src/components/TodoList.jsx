@@ -1,7 +1,12 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-const TodoList = ({ todoList, filterByButton, toggleChecked, deleteItem }) => {
+const TodoList = ({ 
+  todoList, 
+  filterByButton, 
+  toggleChecked, 
+  deleteItem 
+}) => {
   const filterBy = (item) => {
     if (filterByButton === 'Completed') {
       return item.completed;
@@ -23,10 +28,10 @@ const TodoList = ({ todoList, filterByButton, toggleChecked, deleteItem }) => {
             toggleChecked={toggleChecked}
             deleteItem={deleteItem}
           />
-      ))}
+        ))
+      }
     </ul>
   )
-
 
 }
 

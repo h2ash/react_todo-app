@@ -2,12 +2,12 @@ import React from 'react'
 
 class FilterButtons extends React.Component {
   state = {
-    idOfA: 1,
+    idForButton: 1,
   }
 
   filterByAndToggleCSS = (id, filteredBy) => {
     this.setState({
-      idOfA: id,
+      idForButton: id,
     });
 
     this.props.handleFilter(filteredBy);
@@ -19,8 +19,7 @@ class FilterButtons extends React.Component {
         <li>
           <a
             href="#/"
-            // className="selected"
-            className={this.state.idOfA === 1 && 'selected'}
+            className={this.state.idForButton === 1 && 'selected'}
             onClick={() => this.filterByAndToggleCSS(1, 'All')}
           >
             All
@@ -30,7 +29,7 @@ class FilterButtons extends React.Component {
         <li>
           <a 
             href="#/active" 
-            className={this.state.idOfA === 2 && 'selected'}
+            className={this.state.idForButton === 2 && 'selected'}
             onClick={() => this.filterByAndToggleCSS(2, 'Active')}
             >
             Active
@@ -40,7 +39,7 @@ class FilterButtons extends React.Component {
         <li>
           <a
             href="#/completed"
-            className={this.state.idOfA === 3 && 'selected'}
+            className={this.state.idForButton === 3 && 'selected'}
             onClick={() => this.filterByAndToggleCSS(3, 'Completed')}
           >
             Completed

@@ -30,18 +30,17 @@ class App extends Component {
 
   countUncompletedTodos = () => {
     return this.state.todoList
-      .filter(item => item.completed === false).length;
+      .filter(item => !item.completed).length;
   };
 
   deleteAllCompletedTodos = () => {
     this.setState(prevState => {
       const uncompletedTodos = prevState.todoList
-        .filter(item => item.completed === false);
+        .filter(item => !item.completed);
 
       return {
         todoList: [...uncompletedTodos],
       }
-
     })
   };
 
