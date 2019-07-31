@@ -45,8 +45,6 @@ class App extends Component {
           : todo
       });
 
-      console.log('editTodo is alive');
-
       return {
         todoList: todos,
       };
@@ -64,7 +62,7 @@ class App extends Component {
         .filter(item => !item.completed);
 
       return {
-        todoList: [...uncompletedTodos],
+        todoList: uncompletedTodos,
       }
     })
   };
@@ -74,7 +72,7 @@ class App extends Component {
       const withoutRemovedItems = prevState.todoList.filter(item => item.id !== taskId);
       
         return {
-          todoList: [...withoutRemovedItems],
+          todoList: withoutRemovedItems,
         }
     })
   }
@@ -87,9 +85,10 @@ class App extends Component {
 
   toggleAll = () => {
     this.setState(prevState => {
+      const everyCompleted = prevState.todoList.every(todo => todo.completed);
       const todos = prevState.todoList.map(todo => ({
         ...todo,
-        completed: !prevState.todoList.every(todo => todo.completed)
+        completed: !everyCompleted,
       }));
 
       return {
