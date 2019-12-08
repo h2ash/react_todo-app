@@ -1,75 +1,160 @@
-import React from 'react';
+import React, { Component } from 'react';
+import InputField from './components/InputField';
+import ToggleCompleted from './components/ToggleCompleted';
+import TodoList from './components/TodoList';
+import FilterButtons from './components/FilterButtons';
+import ClearButton from './components/ClearButton';
 
-function App() {
-  return (
-    <section className="todoapp">
-      <header className="header">
-        <h1>todos</h1>
+/**
+ * [] - добавить возможность редактирования todo по даблклику
+ *   [] - превратим в класс TodoItem и добавим туда состояние
+ *        и ф-цию для редактирования внутреннего текста todo.title
+ */
 
-        <input
-          className="new-todo"
-          placeholder="What needs to be done?"
-        />
-      </header>
+class App extends Component {
+  state = {
+    todoList: [],
+    filterByButton: '',
+    count: 1
+  };
 
-      <section className="main" style={{ display: 'block' }}>
-        <input type="checkbox" id="toggle-all" className="toggle-all" />
-        <label htmlFor="toggle-all">Mark all as complete</label>
+  addNewTodo = text => {
+    const todoItem = {
+      title: text,
+      id: this.state.count,
+      completed: false,
+    };
 
-        <ul className="todo-list">
-          <li className="">
-            <div className="view">
-              <input type="checkbox" className="toggle" id="todo-1" />
-              <label htmlFor="todo-1">sdfsdfsdf</label>
-              <button type="button" className="destroy" />
-            </div>
-          </li>
+    this.setState(prevState => {
+      const todos = [...prevState.todoList, todoItem];
+      return {
+        todoList: todos,
+        count: prevState.count + 1,
+      };
+    });
+  };
 
-          <li className="">
-            <div className="view">
-              <input type="checkbox" className="toggle" id="todo-2" />
-              <label htmlFor="todo-2">sakgjdfgkhjasgdhjfhs</label>
-              <button type="button" className="destroy" />
-            </div>
-          </li>
+  editTodo = (text, id) => {
+    this.setState(prevState => {
+      const todos = prevState.todoList.map(todo => {
+        return todo.id === id
+          ? {
+            ...todo,
+            title: text,
+          }
+          : todo
+      });
 
-          <li className="">
-            <div className="view">
-              <input type="checkbox" className="toggle" id="todo-3" />
-              <label htmlFor="todo-3">sddfgdfgdf</label>
-              <button type="button" className="destroy" />
-            </div>
-          </li>
-        </ul>
+      return {
+        todoList: todos,
+      };
+    });
+  }
+
+  countUncompletedTodos = () => {
+    return this.state.todoList
+      .filter(item => !item.completed).length;
+  };
+
+  deleteAllCompletedTodos = () => {
+    this.setState(prevState => {
+      const uncompletedTodos = prevState.todoList
+        .filter(item => !item.completed);
+
+      return {
+        todoList: uncompletedTodos,
+      }
+    })
+  };
+
+  deleteItem = taskId => {
+    this.setState(prevState => {
+      const withoutRemovedItems = prevState.todoList.filter(item => item.id !== taskId);
+      
+        return {
+          todoList: withoutRemovedItems,
+        }
+    })
+  }
+
+  handleFilter = filterBy => {
+    this.setState({
+      filterByButton: filterBy,
+    });
+  };
+
+  toggleAll = () => {
+    this.setState(prevState => {
+      const everyCompleted = prevState.todoList.every(todo => todo.completed);
+      const todos = prevState.todoList.map(todo => ({
+        ...todo,
+        completed: !everyCompleted,
+      }));
+
+      return {
+        todoList: todos,
+      };
+    });
+  };
+
+  toggleChecked = taskId => {
+    this.setState(prevState => {
+      const todos = prevState.todoList.map(todo => {
+        return todo.id === taskId
+          ? {
+              ...todo,
+              completed: !todo.completed
+            }
+          : todo;
+      });
+
+      return {
+        todoList: todos,
+      };
+    });
+  };
+
+  render() {
+    const { todoList, filterByButton } = this.state;
+    const countUncompletedTodos = this.countUncompletedTodos();
+
+    return (
+      <section className="todoapp">
+        <header className="header">
+          <h1>todos</h1>
+
+          <InputField addNewTodo={this.addNewTodo} />
+        </header>
+
+        <section className="main" style={{ display: 'block' }}>
+          <ToggleCompleted toggleAll={this.toggleAll} />
+
+          <TodoList
+            filterByButton={filterByButton}
+            todoList={todoList}
+            toggleChecked={this.toggleChecked}
+            deleteItem={this.deleteItem}
+            editTodo={this.editTodo}
+          />
+        </section>
+
+        <footer className="footer" style={{ display: 'block' }}>
+          <span className="todo-count">
+            {countUncompletedTodos} items left
+          </span>
+
+          <FilterButtons 
+            handleFilter={this.handleFilter}
+           />
+
+          <ClearButton 
+            todoList={todoList}
+            deleteAllCompletedTodos={this.deleteAllCompletedTodos}
+          />
+        </footer>
       </section>
-
-      <footer className="footer" style={{ display: 'block' }}>
-        <span className="todo-count">
-          3 items left
-        </span>
-
-        <ul className="filters">
-          <li>
-            <a href="#/" className="selected">All</a>
-          </li>
-
-          <li>
-            <a href="#/active">Active</a>
-          </li>
-
-          <li>
-            <a href="#/completed">Completed</a>
-          </li>
-        </ul>
-
-        <button
-          type="button"
-          className="clear-completed"
-          style={{ display: 'block' }}
-        />
-      </footer>
-    </section>
-  );
+    );
+  }
 }
 
 export default App;
